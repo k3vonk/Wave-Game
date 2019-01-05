@@ -9,6 +9,8 @@ import java.util.Random;
 /*
  * Ctrl + Shift + o : Auto-import packages
  * 1. P1 Create Back-End of Game [Generic part]
+ * 2. Added Handler, ID, Player
+ * 3. Key inputs
  */
 public class Game extends Canvas implements Runnable{
 
@@ -23,13 +25,14 @@ public class Game extends Canvas implements Runnable{
 	private Handler handler;
 	
 	public Game() {
+		handler = new Handler();
+		this.addKeyListener(new KeyInput(handler));
+		
 		new Window(WIDTH, HEIGHT, "Let's Build a Game!", this);
 	
-		handler = new Handler();
 		r = new Random();
-		for(int i = 0; i < 50; i++) {
-			handler.addObject(new Player(0, 0, ID.Player));
-		}
+		
+		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player));
 	}
 	
 	public synchronized void start() {
@@ -70,7 +73,7 @@ public class Game extends Canvas implements Runnable{
 			
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				System.out.println("FPS: " + frames);
+				//System.out.println("FPS: " + frames);
 				frames = 0;
 			}
 		}
