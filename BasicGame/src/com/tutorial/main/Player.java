@@ -14,8 +14,12 @@ public class Player extends GameObject{
 	}
 	
 	public void tick() {
-		x += velX;
 		y += velY;
+		x += velX;
+			
+		x = Game.clamp(x, 0, Game.WIDTH - 38);
+		y = Game.clamp(y, 0, Game.HEIGHT - 67);
+		
 	}
 	
 	public void render(Graphics g) {

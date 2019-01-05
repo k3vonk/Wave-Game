@@ -11,28 +11,35 @@ import java.util.Random;
  * 1. P1 Create Back-End of Game [Generic part]
  * 2. Added Handler, ID, Player
  * 3. Key inputs
+ * 4. Enemies, Collision, Health Bar
  */
 public class Game extends Canvas implements Runnable{
 
 	private static final long serialVersionUID = 7580815534084638412L;
 
-	public static final int WIDTH = 640, HEIGHT = WIDTH/12  * 9;
+	public static final int WIDTH = 640, HEIGHT = WIDTH/12 * 9;
 	
 	private Thread thread; //Entire game will run on this
 	private boolean running = false;
 	
 	private Random r;
 	private Handler handler;
+	private HUD hud;
 	
 	public Game() {
 		handler = new Handler();
 		this.addKeyListener(new KeyInput(handler));
 		
 		new Window(WIDTH, HEIGHT, "Let's Build a Game!", this);
+		
+		hud = new HUD();
 	
 		r = new Random();
 		
 		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player));
+		handler.addObject(new BasicEnemy(r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.BasicEnemy));
+
+
 	}
 	
 	public synchronized void start() {
@@ -82,6 +89,7 @@ public class Game extends Canvas implements Runnable{
 	
 	private void tick() {
 		handler.tick();
+		hud.tick();
 	}
 	
 	private void render() {
@@ -97,9 +105,19 @@ public class Game extends Canvas implements Runnable{
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		handler.render(g);
+		hud.render(g);
 		
 		g.dispose();
 		bs.show();
+	}
+	
+	public static int clamp(int var, int min, int max) {
+		if(var >= max)
+			return var = max;
+		else if(var <= min)
+			return var = min;
+		else
+			return var;
 	}
 	
 	public static void main(String args[]) {
