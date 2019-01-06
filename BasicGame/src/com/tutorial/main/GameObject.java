@@ -1,6 +1,7 @@
 package com.tutorial.main;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 /*
  * Abstract that all GameObjects should have
@@ -20,6 +21,7 @@ public abstract class GameObject {
 	// Must implement
 	public abstract void tick();
 	public abstract void render(Graphics g);
+	public abstract Rectangle getBounds(); //when two rectangles intersect it will return true [collision]
 	
 	public void setX(int x) {
 		this.x = x;

@@ -11,7 +11,8 @@ import java.util.Random;
  * 1. P1 Create Back-End of Game [Generic part]
  * 2. Added Handler, ID, Player
  * 3. Key inputs
- * 4. Enemies, Collision, Health Bar
+ * 4. Enemies, Health Bar
+ * 5. Collision, Trail
  */
 public class Game extends Canvas implements Runnable{
 
@@ -36,10 +37,10 @@ public class Game extends Canvas implements Runnable{
 	
 		r = new Random();
 		
-		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player));
-		handler.addObject(new BasicEnemy(r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.BasicEnemy));
+		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player,handler));
+		handler.addObject(new BasicEnemy(r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.BasicEnemy, handler));
 
-
+	
 	}
 	
 	public synchronized void start() {
