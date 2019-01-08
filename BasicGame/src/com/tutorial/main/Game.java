@@ -13,6 +13,7 @@ import java.util.Random;
  * 3. Key inputs
  * 4. Enemies, Health Bar
  * 5. Collision, Trail
+ * 6. Levels, Spawner, FastEnemy
  */
 public class Game extends Canvas implements Runnable{
 
@@ -26,6 +27,7 @@ public class Game extends Canvas implements Runnable{
 	private Random r;
 	private Handler handler;
 	private HUD hud;
+	private Spawn spawner;
 	
 	public Game() {
 		handler = new Handler();
@@ -34,7 +36,7 @@ public class Game extends Canvas implements Runnable{
 		new Window(WIDTH, HEIGHT, "Let's Build a Game!", this);
 		
 		hud = new HUD();
-	
+		spawner = new Spawn(handler, hud);
 		r = new Random();
 		
 		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player,handler));
@@ -91,6 +93,7 @@ public class Game extends Canvas implements Runnable{
 	private void tick() {
 		handler.tick();
 		hud.tick();
+		spawner.tick();
 	}
 	
 	private void render() {

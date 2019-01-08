@@ -35,7 +35,8 @@ public class Player extends GameObject{
 		for(int i = 0; i < handler.object.size(); i++) {
 			GameObject tempObject = handler.object.get(i);
 			
-			if(tempObject.getid() == ID.BasicEnemy
+			if((tempObject.getid() == ID.BasicEnemy || 
+					tempObject.getid() == ID.FastEnemy)
 				&& getBounds().intersects(tempObject.getBounds())) {
 					HUD.HEALTH -= 2;
 				}
@@ -47,7 +48,7 @@ public class Player extends GameObject{
 		
 		g.setColor(Color.green);
 		g2d.draw(getBounds());
-		g.setColor(Color.white);
+		g.setColor(Color.green);
 		g.fillRect(x, y, 32, 32);
 		
 	}
