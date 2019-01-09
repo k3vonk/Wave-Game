@@ -37,7 +37,8 @@ public class Player extends GameObject{
 			
 			if((tempObject.getid() == ID.BasicEnemy || 
 					tempObject.getid() == ID.FastEnemy ||
-					tempObject.getid() == ID.SmartEnemy)
+					tempObject.getid() == ID.SmartEnemy ||
+					tempObject.getid() == ID.EnemyBoss)
 				&& getBounds().intersects(tempObject.getBounds())) {
 					HUD.HEALTH -= 2;
 				}
