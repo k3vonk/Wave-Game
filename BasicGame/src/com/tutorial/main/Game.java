@@ -17,7 +17,7 @@ import java.util.Random;
  * 7. Sticky Keys, AI
  * 8. Boss
  * 9. Menu
- * 10. Beautify Menu
+ * 10. Beautify Menu, Game endscreen
  */
 public class Game extends Canvas implements Runnable{
 
@@ -38,19 +38,20 @@ public class Game extends Canvas implements Runnable{
 		Menu,
 		Help,
 		Game,
+		End,
 	};
 	
-	public STATE gameState = STATE.Menu;
+	public static STATE gameState = STATE.Menu;
 	
 	public Game() {
 		handler = new Handler();
-		menu = new Menu(this, handler);
+		hud = new HUD();
+		menu = new Menu(this, handler, hud);
 		this.addMouseListener(menu);
 		this.addKeyListener(new KeyInput(handler));
 		
 		new Window(WIDTH, HEIGHT, "Let's Build a Game!", this);
 		
-		hud = new HUD();
 		spawner = new Spawn(handler, hud);
 		
 		r = new Random();
@@ -58,10 +59,12 @@ public class Game extends Canvas implements Runnable{
 		if(gameState == STATE.Game) {
 			handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32, ID.Player,handler));
 			handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH - 50), r.nextInt(Game.HEIGHT - 50), ID.BasicEnemy, handler));
+		}else {
+			for(int i = 0; i < 10; i++) {
+				handler.addObject(new MenuParticle(r.nextInt(Game.WIDTH), r.nextInt(Game.HEIGHT), ID.MenuParticle, handler));
+
+			}
 		}
-		
-
-
 	
 	}
 	
@@ -116,7 +119,18 @@ public class Game extends Canvas implements Runnable{
 		if(gameState == STATE.Game) {
 			hud.tick();
 			spawner.tick();
-		}else if(gameState == STATE.Menu) {
+			
+			if(HUD.HEALTH <= 0) {
+				HUD.HEALTH = 100;
+				gameState = STATE.End;
+				handler.clearEnemys();
+				for(int i = 0; i < 10; i++) {
+					handler.addObject(new MenuParticle(r.nextInt(Game.WIDTH), r.nextInt(Game.HEIGHT), ID.MenuParticle, handler));
+
+				}
+
+			}
+		}else if(gameState == STATE.Menu || gameState == STATE.End) {
 			menu.tick();
 		}
 	}
@@ -137,7 +151,7 @@ public class Game extends Canvas implements Runnable{
 		
 		if(gameState == STATE.Game) {
 			hud.render(g);
-		}else if(gameState == STATE.Menu || gameState == STATE.Help) {
+		}else if(gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End) {
 			menu.render(g);
 		}
 		

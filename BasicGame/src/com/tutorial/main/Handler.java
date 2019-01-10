@@ -38,7 +38,7 @@ public class Handler {
 	public void clearEnemys() {
 		for (int i = 0; i < this.object.size(); i++) {
 			GameObject tempObject = this.object.get(i);
-	        if (tempObject.getid() != ID.Player) {
+	        if (tempObject.getid() != ID.Player || Game.gameState == Game.STATE.End) {
 	            this.removeObject(tempObject);
 	            i--;
 	        }
