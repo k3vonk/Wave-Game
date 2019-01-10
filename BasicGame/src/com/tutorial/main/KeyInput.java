@@ -3,6 +3,10 @@ package com.tutorial.main;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import org.lwjgl.openal.AL;
+
+import com.tutorial.main.Game.STATE;
+
 public class KeyInput extends KeyAdapter{
 
 	private Handler handler;
@@ -31,7 +35,14 @@ public class KeyInput extends KeyAdapter{
 			}
 		}
 		
-		if(key == KeyEvent.VK_ESCAPE) System.exit(1);
+		if(key == KeyEvent.VK_P && Game.gameState == STATE.Game) {
+			if(Game.paused) Game.paused = false;
+			else Game.paused = true;
+		}
+		if(key == KeyEvent.VK_ESCAPE) {
+			AL.destroy(); 
+			System.exit(1);
+		}
 	}
 	
 	public void keyReleased(KeyEvent e) {
