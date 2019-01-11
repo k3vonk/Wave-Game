@@ -123,7 +123,7 @@ public class Menu extends MouseAdapter{
 		
 	}
 	
-	private boolean mouseOver(int mx, int my, int x, int y, int width, int height) {
+	public static boolean mouseOver(int mx, int my, int x, int y, int width, int height) {
 		if(mx > x && mx < x + width) {
 			if(my > y && my < y + height) {
 				return true;
@@ -136,13 +136,13 @@ public class Menu extends MouseAdapter{
 	}
 	
 	public void render(Graphics g) {
-		Font fnt = new Font("aerial", 1, 50);
-		Font fnt2 = new Font("aerial", 1, 30);
+		Font fnt = new Font("arial", 1, 50);
+		Font fnt2 = new Font("arial", 1, 30);
 		
 		if(Game.gameState == STATE.Menu) { //Menu Screen
 
 			g.setColor(Color.black);
-			g.setFont(new Font("aerial", 2, 53));
+			g.setFont(new Font("arial", 2, 53));
 			g.drawString("Wave", 245, 70);
 			g.setColor(Color.white);
 			g.setFont(fnt);

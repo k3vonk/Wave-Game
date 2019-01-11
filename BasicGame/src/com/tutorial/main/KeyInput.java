@@ -28,18 +28,19 @@ public class KeyInput extends KeyAdapter{
 			
 			if(tempObject.getid() == ID.Player) {
 				
-				if(key == KeyEvent.VK_W) { tempObject.setVelY(-5); keyDown[0] = true;};
-				if(key == KeyEvent.VK_S) { tempObject.setVelY(5); keyDown[1] = true;};
-				if(key == KeyEvent.VK_D) { tempObject.setVelX(5); keyDown[2] = true;};
-				if(key == KeyEvent.VK_A) { tempObject.setVelX(-5); keyDown[3] = true;};
+				if(key == KeyEvent.VK_W) { tempObject.setVelY(-handler.speed); keyDown[0] = true;};
+				if(key == KeyEvent.VK_S) { tempObject.setVelY(handler.speed); keyDown[1] = true;};
+				if(key == KeyEvent.VK_D) { tempObject.setVelX(handler.speed); keyDown[2] = true;};
+				if(key == KeyEvent.VK_A) { tempObject.setVelX(-handler.speed); keyDown[3] = true;};
 			}
 		}
 		
-		if(key == KeyEvent.VK_P && Game.gameState == STATE.Game) {
+		if(key == KeyEvent.VK_P && Game.gameState == STATE.Game) { //P to pause game
 			if(Game.paused) Game.paused = false;
 			else Game.paused = true;
 		}
-		if(key == KeyEvent.VK_M) {
+		
+		if(key == KeyEvent.VK_M) { //M to stop music
 			Game.pauseMusic = !Game.pauseMusic;
 			if(Game.pauseMusic) {
 				AudioPlayer.getMusic("music").pause();
@@ -47,9 +48,18 @@ public class KeyInput extends KeyAdapter{
 				AudioPlayer.getMusic("music").loop();
 			}
 		}
-		if(key == KeyEvent.VK_ESCAPE) {
+		
+		if(key == KeyEvent.VK_ESCAPE) { //Escape to exit game
 			AL.destroy(); 
 			System.exit(1);
+		}
+		
+		if(key == KeyEvent.VK_SPACE) { //Space to go to shop
+			if(Game.gameState == STATE.Game) {
+				Game.gameState = STATE.Shop;
+			}else if(Game.gameState == STATE.Shop) {
+				Game.gameState = STATE.Game;
+			}
 		}
 	}
 	
