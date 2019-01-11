@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /*
@@ -20,7 +21,8 @@ import java.util.Random;
  * 9. Menu
  * 10. Beautify Menu, Game End Screen
  * 11. Music SFX
- * 12. 
+ * 12. Difficulty
+ * 13. SpriteSheet & Finish Menu
  */
 public class Game extends Canvas implements Runnable{
 
@@ -30,8 +32,10 @@ public class Game extends Canvas implements Runnable{
 	
 	private Thread thread; //Entire game will run on this
 	private boolean running = false;
+	private int f = 0;
 	
 	public static boolean paused = false;
+	public static boolean pauseMusic = false;
 	public static int diff = 0;
 	
 	// 0 = normal
@@ -48,10 +52,13 @@ public class Game extends Canvas implements Runnable{
 		Select,
 		Help,
 		Game,
+		Finish,
 		End,
 	};
 	
 	public static STATE gameState = STATE.Menu;
+	
+	public static BufferedImage sprite_sheet;
 	
 	public Game() {
 		handler = new Handler();
@@ -65,6 +72,9 @@ public class Game extends Canvas implements Runnable{
 		AudioPlayer.getMusic("music").loop();
 		
 		new Window(WIDTH, HEIGHT, "Let's Build a Game!", this);
+		
+		BufferedImageLoader loader = new BufferedImageLoader();
+		sprite_sheet = loader.loadImage("/sprite_spreadsheet.png");
 		
 		spawner = new Spawn(handler, hud);
 		
@@ -120,7 +130,7 @@ public class Game extends Canvas implements Runnable{
 			
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				//System.out.println("FPS: " + frames);
+				f = frames;
 				frames = 0;
 			}
 		}
@@ -144,9 +154,17 @@ public class Game extends Canvas implements Runnable{
 
 					}
 
+				}else if(hud.getLevel() == 20) {
+					HUD.HEALTH = 100;
+					gameState = STATE.Finish;
+					handler.clearEnemys();
+					for(int i = 0; i < 10; i++) {
+						handler.addObject(new MenuParticle(r.nextInt(Game.WIDTH), r.nextInt(Game.HEIGHT), ID.MenuParticle, handler));
+
+					}
 				}
 			}
-		}else if(gameState == STATE.Menu || gameState == STATE.End || gameState == STATE.Select) {
+		}else if(gameState == STATE.Menu || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Finish) {
 			menu.tick();
 			handler.tick();
 		}
@@ -165,7 +183,8 @@ public class Game extends Canvas implements Runnable{
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		handler.render(g);
-		
+		g.setColor(Color.red);
+		g.drawString("FPS: " + f, 570, 20);
 		if(paused) {
 			g.setColor(Color.RED);
 			g.setFont(new Font("aerial", 1, 50));
@@ -174,7 +193,7 @@ public class Game extends Canvas implements Runnable{
 		
 		if(gameState == STATE.Game) {
 			hud.render(g);
-		}else if(gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select) {
+		}else if(gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Finish) {
 			menu.render(g);
 		}
 		
@@ -190,10 +209,5 @@ public class Game extends Canvas implements Runnable{
 		else
 			return var;
 	}
-	
-	public static void main(String args[]) {
-		new Game();
-	}
-	
 	
 }

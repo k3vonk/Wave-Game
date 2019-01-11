@@ -39,6 +39,14 @@ public class KeyInput extends KeyAdapter{
 			if(Game.paused) Game.paused = false;
 			else Game.paused = true;
 		}
+		if(key == KeyEvent.VK_M) {
+			Game.pauseMusic = !Game.pauseMusic;
+			if(Game.pauseMusic) {
+				AudioPlayer.getMusic("music").pause();
+			}else {
+				AudioPlayer.getMusic("music").loop();
+			}
+		}
 		if(key == KeyEvent.VK_ESCAPE) {
 			AL.destroy(); 
 			System.exit(1);

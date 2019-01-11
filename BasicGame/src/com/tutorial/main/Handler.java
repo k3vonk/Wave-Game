@@ -3,6 +3,8 @@ package com.tutorial.main;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
+import com.tutorial.main.Game.STATE;
+
 /*
  * Maintain & Update 'render'
  */
@@ -38,7 +40,7 @@ public class Handler {
 	public void clearEnemys() {
 		for (int i = 0; i < this.object.size(); i++) {
 			GameObject tempObject = this.object.get(i);
-	        if (tempObject.getid() != ID.Player || Game.gameState == Game.STATE.End) {
+	        if (tempObject.getid() != ID.Player || Game.gameState == STATE.End || Game.gameState == STATE.Finish) {
 	            this.removeObject(tempObject);
 	            i--;
 	        }

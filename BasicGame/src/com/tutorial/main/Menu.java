@@ -51,7 +51,7 @@ public class Menu extends MouseAdapter{
 				
 			}
 		}
-
+	
 		//Back button for help
 		if(Game.gameState == STATE.Help) {
 			if(mouseOver(mx, my, 210, 350, 200, 64)) {
@@ -62,6 +62,18 @@ public class Menu extends MouseAdapter{
 		}
 		
 		if(Game.gameState == STATE.End) {
+			if(mouseOver(mx, my, 215, 350, 200, 64)) {
+				Game.gameState = STATE.Game;
+				hud.setLevel(1);
+				hud.setScore(0);
+				Game.gameState = STATE.Select;
+				AudioPlayer.getSound("menu_sound").play();
+				return;
+			}
+		}
+		
+		if(Game.gameState == STATE.Finish) {
+			//Back button
 			if(mouseOver(mx, my, 215, 350, 200, 64)) {
 				Game.gameState = STATE.Game;
 				hud.setLevel(1);
@@ -104,6 +116,7 @@ public class Menu extends MouseAdapter{
 				return;
 			}
 		}
+		
 	}
 	
 	public void mouseReleased(MouseEvent e) {
@@ -165,8 +178,14 @@ public class Menu extends MouseAdapter{
 			g.drawString("Use P Key to pause", 95, 200);
 			
 			g.setFont(fnt2);
-			g.drawString("Use ESC Key to quit", 95, 260);
+			g.drawString("Use M Key to pause music", 95, 260);
 			
+			g.setFont(fnt2);
+			g.drawString("Use ESC Key to quit", 95, 320);
+			
+			g.setColor(Color.black);
+			g.fillRect(210, 350, 200, 64);
+			g.setColor(Color.white);
 			g.setFont(fnt2);
 			g.drawRect(210, 350, 200, 64);
 			g.drawString("Back", 273, 390);
@@ -212,6 +231,21 @@ public class Menu extends MouseAdapter{
 			g.setColor(Color.white);
 			g.drawRect(210, 350, 200, 64);
 			g.drawString("Back", 275, 393);
+		}else if(Game.gameState == STATE.Finish) { //Finish
+			g.setColor(Color.green);
+			g.setFont(fnt);
+			g.drawString("You WON", 200, 70);
+			
+			g.setColor(Color.CYAN);
+			g.setFont(fnt2);
+			g.drawString("Your score: " + hud.getScore(), 190, 190);
+			
+			
+			g.setColor(Color.black);
+			g.fillRect(215, 350, 200, 64);
+			g.setColor(Color.white);
+			g.drawRect(215, 350, 200, 64);
+			g.drawString("Try Again", 250, 390);
 		}
 	}
 }
