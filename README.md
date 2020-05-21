@@ -1,6 +1,9 @@
 # Wave-Game
 A basic game learnt through tutorials on youtube with additions of my own.
 
+![Demo wave game](https://github.com/k3vonk/Wave-Game/blob/master/2019-01-11.png)
+
+
 If there are are any bugs that you find and/or can fix email: ga.young@ucdconnect.ie
 
 Enjoy!
